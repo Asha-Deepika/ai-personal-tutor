@@ -34,16 +34,16 @@
 
 ##  Tech Stack
 
-| Category            Tools Used                                      
-|-------------------|-----------------------------------|
-| Frontend          | Streamlit                         |
-| Backend           | Python                            |
-| AI/NLP            | OpenAI API, Transformers, spaCy   |
-| Data Handling     | Pandas                            |
-| Visualization     | Plotly                            |
-| PDF Processing    | PyPDF2                            |
-| API Integration   | OpenAI                            |                       |
+| Category         | Tools Used                          |
+|-----------------|-----------------------------------|
+| Frontend        | Streamlit                         |
+| Backend         | Python                            |
+| AI/NLP          | OpenAI API, Transformers, spaCy   |
+| Data Handling   | Pandas                            |
+| Visualization   | Plotly                            |
+| PDF Processing  | PyPDF2                            |
+| API Integration | OpenAI / Groq API                 |
+| Version Control | Git, GitHub                       |
 
 
 
-## 📊 System Architecture
