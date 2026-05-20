@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Personal Tutor 🧠</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+
+  <!-- ══ SIDEBAR ══════════════════════════════════════════ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <span class="logo-icon">🧠</span>
+      <span class="logo-text">AI Tutor</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-link active" data-page="home">
+        <span class="nav-icon">🏠</span> Home
+      </a>
+      <a href="#" class="nav-link" data-page="summary">
+        <span class="nav-icon">📌</span> Summary
+      </a>
+      <a href="#" class="nav-link" data-page="definitions">
+        <span class="nav-icon">📖</span> Definitions
+      </a>
+      <a href="#" class="nav-link" data-page="flashcards">
+        <span class="nav-icon">🃏</span> Flashcards
+      </a>
+      <a href="#" class="nav-link" data-page="chat">
+        <span class="nav-icon">🤖</span> AI Chat
+      </a>
+      <a href="#" class="nav-link" data-page="quiz">
+        <span class="nav-icon">🧠</span> Quiz
+      </a>
+      <a href="#" class="nav-link" data-page="dashboard">
+        <span class="nav-icon">📊</span> Dashboard
+      </a>
+      <a href="#" class="nav-link" data-page="download">
+        <span class="nav-icon">📥</span> Download
+      </a>
+    </nav>
+
+    <div class="sidebar-settings">
+      <h4 class="settings-title">⚙️ Settings</h4>
+
+      <label class="field-label">OpenAI API Key</label>
+      <input type="password" id="openaiKey" class="settings-input" placeholder="sk-…" />
+
+      <label class="field-label">Groq API Key</label>
+      <input type="password" id="groqKey" class="settings-input" placeholder="gsk_…" />
+
+      <label class="field-label">Quiz Difficulty</label>
+      <div class="diff-group">
+        <button class="diff-btn" data-diff="Easy">Easy</button>
+        <button class="diff-btn active" data-diff="Medium">Medium</button>
+        <button class="diff-btn" data-diff="Hard">Hard</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN ══════════════════════════════════════════════ -->
+  <main class="main-content">
+
+    <!-- Hamburger toggle -->
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <!-- ── PAGE: HOME ────────────────────────────────────── -->
+    <section class="page active" id="page-home">
+      <div class="hero">
+        <div class="hero-badge">✨ AI-Powered Learning</div>
+        <h1 class="hero-title">Your Personal<br /><em>AI Tutor</em></h1>
+        <p class="hero-sub">Drop text or a PDF — get a summary, notes, flashcards, quiz &amp; more in seconds.</p>
+      </div>
+
+      <div class="input-grid">
+        <!-- Text input card -->
+        <div class="input-card">
+          <div class="input-card-icon">📄</div>
+          <h3 class="input-card-title">Paste Text</h3>
+          <p class="input-card-desc">Paste any study material, article, or notes.</p>
+          <textarea id="textInput" class="text-area" placeholder="Paste your content here…" rows="9"></textarea>
+          <button class="btn btn-primary" id="btnGenerateText">Generate from Text</button>
+        </div>
+
+        <!-- PDF upload card -->
+        <div class="input-card">
+          <div class="input-card-icon">📚</div>
+          <h3 class="input-card-title">Upload PDF</h3>
+          <p class="input-card-desc">Upload a PDF and we'll extract everything automatically.</p>
+          <div class="drop-zone" id="dropZone">
+            <div class="drop-icon">📂</div>
+            <p>Drag &amp; drop PDF here</p>
+            <span>or</span>
+            <label class="btn btn-ghost" for="pdfInput">Browse file</label>
+            <input type="file" id="pdfInput" accept=".pdf" hidden />
+            <p class="drop-filename" id="dropFilename"></p>
+          </div>
+          <button class="btn btn-primary" id="btnGeneratePDF">Generate from PDF</button>
+        </div>
+      </div>
+
+      <!-- Loading state -->
+      <div class="loader-wrap hidden" id="loaderWrap">
+        <div class="loader-ring"></div>
+        <p class="loader-text" id="loaderText">Processing your material…</p>
+      </div>
+    </section>
+
+    <!-- ── PAGE: SUMMARY ─────────────────────────────────── -->
+    <section class="page" id="page-summary">
+      <div class="page-header">
+        <h2>Summary</h2>
+        <p>Key takeaways from your material.</p>
+      </div>
+      <div class="card">
+        <div class="summary-text" id="summaryText">No content yet.</div>
+      </div>
+    </section>
+
+    <!-- ── PAGE: DEFINITIONS ─────────────────────────────── -->
+    <section class="page" id="page-definitions">
+      <div class="page-header">
+        <h2>Definitions &amp; Notes</h2>
+        <p>Core concepts and key sentences.</p>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="sec-label">Definitions</div>
+          <div id="defsList"></div>
+        </div>
+        <div class="card">
+          <div class="sec-label">Key Notes</div>
+          <div id="notesList"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PAGE: FLASHCARDS ──────────────────────────────── -->
+    <section class="page" id="page-flashcards">
+      <div class="page-header">
+        <h2>Flashcards</h2>
+        <p>Tap a card to flip it.</p>
+      </div>
+      <div class="card fc-wrap">
+        <div class="fc-progress-bar">
+          <div class="fc-progress-fill" id="fcProgressFill"></div>
+        </div>
+        <p class="fc-counter" id="fcCounter">Card 0 / 0</p>
+
+        <div class="fc-card" id="fcCard">
+          <div class="fc-inner" id="fcInner">
+            <div class="fc-front" id="fcFront">—</div>
+            <div class="fc-back"  id="fcBack">—</div>
+          </div>
+        </div>
+
+        <div class="fc-controls">
+          <button class="btn btn-ghost" id="fcPrev">⬅ Prev</button>
+          <button class="btn btn-primary" id="fcFlip">🔄 Flip</button>
+          <button class="btn btn-ghost" id="fcNext">Next ➡</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PAGE: CHAT ────────────────────────────────────── -->
+    <section class="page" id="page-chat">
+      <div class="page-header">
+        <h2>AI Chat</h2>
+        <p>Ask anything about your material.</p>
+      </div>
+      <div class="card chat-card">
+        <div class="chat-history" id="chatHistory">
+          <div class="chat-empty">Ask a question to start the conversation 💬</div>
+        </div>
+        <div class="chat-input-row">
+          <input type="text" id="chatInput" class="chat-input" placeholder="Type your question…" />
+          <button class="btn btn-primary" id="btnAsk">Ask AI</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PAGE: QUIZ ────────────────────────────────────── -->
+    <section class="page" id="page-quiz">
+      <div class="page-header">
+        <h2>Quiz <span class="diff-badge" id="quizDiffBadge">Medium</span></h2>
+        <p>Test your understanding.</p>
+      </div>
+      <div id="quizContainer"></div>
+      <div class="quiz-actions hidden" id="quizActions">
+        <button class="btn btn-ghost" id="btnRegenQuiz">🔁 Regenerate</button>
+        <button class="btn btn-primary" id="btnSubmitQuiz">Submit Quiz</button>
+      </div>
+      <div class="quiz-results hidden" id="quizResults"></div>
+    </section>
+
+    <!-- ── PAGE: DASHBOARD ───────────────────────────────── -->
+    <section class="page" id="page-dashboard">
+      <div class="page-header">
+        <h2>Dashboard</h2>
+        <p>Your learning progress at a glance.</p>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-value" id="metAttempts">0</div>
+          <div class="metric-label">Attempts</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value" id="metAvg">0%</div>
+          <div class="metric-label">Avg Score</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value" id="metBest">0%</div>
+          <div class="metric-label">Best Score</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value" id="metStreak">0</div>
+          <div class="metric-label">Streak 🔥</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="sec-label">Score Trend</div>
+          <canvas id="scoreChart" height="200"></canvas>
+        </div>
+        <div class="card">
+          <div class="sec-label">Weak Areas</div>
+          <div id="weakList"></div>
+          <div class="sec-label" style="margin-top:20px">Recent Attempts</div>
+          <div id="recentList"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PAGE: DOWNLOAD ────────────────────────────────── -->
+    <section class="page" id="page-download">
+      <div class="page-header">
+        <h2>Download</h2>
+        <p>Export your study notes as a file.</p>
+      </div>
+      <div class="card download-card">
+        <div class="download-icon">📥</div>
+        <h3>Study Notes Export</h3>
+        <p>Includes summary, key notes, and definitions.</p>
+        <button class="btn btn-primary" id="btnDownload">Download TXT Notes</button>
+      </div>
+    </section>
+
+  </main><!-- /main -->
+
+  <!-- ══ SCRIPTS ═══════════════════════════════════════════ -->
+  <!-- Chart.js from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <!-- Our app logic -->
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
