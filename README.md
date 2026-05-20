@@ -47,3 +47,12 @@
 
 
 
+<img width="1920" height="1020" alt="Home" src="https://github.com/user-attachments/assets/eada463e-b794-4daa-bef8-b2ec09862282" />
+<img width="1920" height="1020" alt="Definitions and Key notes" src="https://github.com/user-attachments/assets/3e79043b-e862-4c94-83f9-92a0aa74ec29" />
+<img width="1920" height="1020" alt="Flashcards" src="https://github.com/user-attachments/assets/805a9816-3e87-4c66-bd93-191f2c0aaaf8" />
+<img width="1920" height="1020" alt="Quiz Check" src="https://github.com/user-attachments/assets/13674f55-fc1e-4014-afc1-5cd87641cae5" />
+<img width="1920" height="1020" alt="Ai Chart" src="https://github.com/user-attachments/assets/fd183371-d1ed-4623-910d-4421dac522ad" />
+<img width="1920" height="1020" alt="Dashboard" src="https://github.com/user-attachments/assets/e74a48b1-1f04-4f23-b2a4-9322d377de33" />
+
+
+
